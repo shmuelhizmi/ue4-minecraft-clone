@@ -3,32 +3,26 @@
 class Utils
 {
 public:
-	static int SnapValue(int Value, int Snap)
+	static int SnapValue(const float Value,const int Snap)
 	{
-		if (Value != 0)
+		const int IntValue = FMath::Floor(Value);
+		if (IntValue == 0)
 		{
-			return Value - (Value % Snap);
+			return 0;
 		}
-		return 0;
-	}
-
-	static int Max(int Value1, int Value2)
-	{
-		if (Value1 > Value2)
-		{
-			return  Value1;
-		}
-		return Value2;
+		return IntValue - (IntValue % Snap);
 	}
 
 	static float GetPointIn(const float Points, float Z)
 	{
+		Z = FMath::Abs(Z);
 		while (Z > Points)
 		{
 			Z -= Points;
 		}
-		return  Z;
+		return Z;
 	}
+
 	static TArray<FVector2D> Divide(TArray<FVector2D> Value1, FVector2D Value2)
 	{
 		TArray<FVector2D> Result;
@@ -36,6 +30,6 @@ public:
 		{
 			Result.Add(Item / Value2);
 		}
-		return  Result;
+		return Result;
 	}
 };

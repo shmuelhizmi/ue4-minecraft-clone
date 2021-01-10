@@ -25,21 +25,6 @@ class AMCCharacter : public ACharacter
 	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
 	USkeletalMeshComponent* Mesh1P;
 
-	/** Gun mesh: 1st person view (seen only by self) */
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-	USkeletalMeshComponent* FP_Gun;
-
-	/** Location on gun mesh where projectiles should spawn. */
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-	USceneComponent* FP_MuzzleLocation;
-
-	/** Gun mesh: VR view (attached to the VR controller directly, no arm, just the actual gun) */
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-	USkeletalMeshComponent* VR_Gun;
-
-	/** Location on VR gun mesh where projectiles should spawn. */
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-	USceneComponent* VR_MuzzleLocation;
 
 	/** First person camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -73,21 +58,15 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
-	/** Gun muzzle's offset from the characters location */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
-	FVector GunOffset;
+	USoundBase* PlaceBlockSound;
 
-	/** Projectile class to spawn */
-	UPROPERTY(EditDefaultsOnly, Category=Projectile)
-	TSubclassOf<class AMCProjectile> ProjectileClass;
-
-	/** Sound to play each time we fire */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
-	USoundBase* FireSound;
+	USoundBase* TakeBlockSound;
 
 	/** AnimMontage to play each time we fire */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-	UAnimMontage* FireAnimation;
+	UAnimMontage* ToolActionAnimation;
 
 	/** Whether to use motion controller location for aiming. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
@@ -98,6 +77,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Stats)
 	EFastNoise_NoiseType NoiseType;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= Block)
+	EBlockType CurrentBlock;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Stats)
 	int ChunkSize;
 
@@ -107,15 +89,21 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Stats)
 	int ChunkDespawnDistance;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Stats)
+	int BlockPlaceDestroyDistance;
+
 	UPROPERTY(EditAnywhere, Category = SpectatorPawn)
 	TSubclassOf<class AChunk> ChunkBlueprint;
 	
 	TMap<int32, TMap<int32, AChunk*>> Chunks;
 protected:
 	
-	/** Fires a projectile. */
-	void OnFire();
-
+	/** Place a Block. */
+	void OnPlaceBlock();
+	
+	/** Place a Block. */
+	void OnTakeBlock();
+	
 	/** Resets HMD orientation and position in VR. */
 	void OnResetVR();
 

@@ -66,7 +66,7 @@ public:
 	void UpdateMesh();
 
 	UFUNCTION(BlueprintCallable, Category=Actions)
-	void PlaceBlock(int32 X, int32 Y, int32 Z, EBlockType Block);
+	void PlaceBlock(int32 X, int32 Y, int32 Z, EBlockType Block, FVector Forwards);
 	UFUNCTION(BlueprintCallable, Category=Actions)
-	void DestroyBlock(int32 X, int32 Y, int32 Z);
+	EBlockType DestroyBlock(int32 X, int32 Y, int32 Z, FVector Forwards);
 };

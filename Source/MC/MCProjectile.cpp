@@ -35,10 +35,4 @@ AMCProjectile::AMCProjectile()
 
 void AMCProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	AChunk* Chunk = Cast<AChunk>(OtherActor);
-	// Only add impulse and destroy projectile if we hit a physics
-	if (Chunk != nullptr)
-	{
-		Chunk->PlaceBlock(Hit.Location.X, Hit.Location.Y, Hit.Location.Z, EBlockType::Grass);
-	}
 }
